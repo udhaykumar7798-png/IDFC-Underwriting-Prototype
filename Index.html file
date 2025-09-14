@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>IDFC First Bank - Alt Underwriting & Property Valuation</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header>
+  <h1>IDFC First Bank</h1>
+  <h2>Alternative Underwriting & Property Valuation</h2>
+</header>
+
+<nav>
+  <button onclick="showSection('underwriting')">Alternative Underwriting</button>
+  <button onclick="showSection('valuation')">Property Valuation</button>
+</nav>
+
+<section id="underwriting" class="active">
+  <h3>Alternative Underwriting</h3>
+  <form id="underwritingForm">
+    <label for="loanAmount">Loan Amount (₹):</label>
+    <input type="number" id="loanAmount" value="2500000" min="100000" max="5000000" />
+
+    <label for="upiTxns">UPI Transactions (last 6 months):</label>
+    <input type="number" id="upiTxns" value="450" min="0" />
+
+    <label for="paymentFailures">Payment Failures (last 6 months):</label>
+    <input type="number" id="paymentFailures" value="2" min="0" />
+
+    <button type="button" id="calculateRiskBtn">Calculate Risk Score</button>
+  </form>
+  <p id="riskScoreDisplay">Risk Score: -</p>
+</section>
+
+<section id="valuation" class="hidden">
+  <h3>Property Valuation</h3>
+  <form id="valuationForm">
+    <label for="propertyType">Property Type:</label>
+    <select id="propertyType">
+      <option>Residential Plot</option>
+      <option>Built Property</option>
+      <option>Commercial</option>
+    </select>
+
+    <label for="location">Location (City):</label>
+    <select id="location">
+      <option>Pune - Baner</option>
+      <option>Indore - Vijay Nagar</option>
+      <option>Nashik - College Road</option>
+    </select>
+
+    <label for="propertySize">Property Size (sq.ft):</label>
+    <input type="number" id="propertySize" value="1000" min="100" />
+
+    <button type="button" id="calculateValueBtn">Calculate Estimated Value</button>
+  </form>
+  <p id="valuationDisplay">Estimated Value: -</p>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>
