@@ -1,64 +1,426 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>IDFC First Bank - Alt Underwriting & Property Valuation</title>
-<link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDFC First Bank - Alternative Underwriting & Property Valuation</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<header>
-  <h1>IDFC First Bank</h1>
-  <h2>Alternative Underwriting & Property Valuation</h2>
-</header>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">IDFC FIRST BANK</div>
+                    <span class="tagline">Alt Underwriting & Property Valuation</span>
+                </div>
+                <div class="user-controls">
+                    <div class="role-toggle">
+                        <label class="toggle-label">
+                            <input type="checkbox" id="roleToggle" class="toggle-input">
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-text">Consumer View</span>
+                        </label>
+                    </div>
+                    <div class="user-profile">
+                        <span class="user-name">Loan Officer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-<nav>
-  <button onclick="showSection('underwriting')">Alternative Underwriting</button>
-  <button onclick="showSection('valuation')">Property Valuation</button>
-</nav>
+    <!-- Main Dashboard -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="dashboard">
+                <div class="dashboard-header">
+                    <h1>Dashboard Overview</h1>
+                    <div class="quick-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">24</div>
+                            <div class="stat-label">Pending Applications</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">156</div>
+                            <div class="stat-label">Valuations This Month</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">₹12.5Cr</div>
+                            <div class="stat-label">Total Disbursed</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">92%</div>
+                            <div class="stat-label">Approval Rate</div>
+                        </div>
+                    </div>
+                </div>
 
-<section id="underwriting" class="active">
-  <h3>Alternative Underwriting</h3>
-  <form id="underwritingForm">
-    <label for="loanAmount">Loan Amount (₹):</label>
-    <input type="number" id="loanAmount" value="2500000" min="100000" max="5000000" />
+                <div class="module-selector">
+                    <div class="module-card" onclick="showModule('underwriting')">
+                        <div class="module-icon">📊</div>
+                        <h3>Alternative Underwriting</h3>
+                        <p>AI-powered credit assessment using alternative data sources</p>
+                        <button class="btn btn--primary">Access Module</button>
+                    </div>
+                    <div class="module-card" onclick="showModule('valuation')">
+                        <div class="module-icon">🏠</div>
+                        <h3>Property Valuation</h3>
+                        <p>Comprehensive property assessment with market analysis</p>
+                        <button class="btn btn--primary">Access Module</button>
+                    </div>
+                </div>
+            </div>
 
-    <label for="upiTxns">UPI Transactions (last 6 months):</label>
-    <input type="number" id="upiTxns" value="450" min="0" />
+            <!-- Alternative Underwriting Module -->
+            <div id="underwriting-module" class="module hidden">
+                <div class="module-header">
+                    <h2>Alternative Underwriting Assessment</h2>
+                    <button class="btn btn--outline" onclick="showDashboard()">← Back to Dashboard</button>
+                </div>
 
-    <label for="paymentFailures">Payment Failures (last 6 months):</label>
-    <input type="number" id="paymentFailures" value="2" min="0" />
+                <div class="underwriting-content">
+                    <div class="form-section">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Customer Information</h3>
+                            </div>
+                            <div class="card__body">
+                                <form id="customerForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Full Name</label>
+                                        <input type="text" class="form-control" id="customerName" placeholder="Enter customer name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Mobile Number</label>
+                                        <input type="tel" class="form-control" id="mobileNumber" placeholder="Enter 10-digit mobile number">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">PAN Number</label>
+                                        <input type="text" class="form-control" id="panNumber" placeholder="ABCDE1234F">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Loan Amount (₹)</label>
+                                        <input type="number" class="form-control" id="loanAmount" value="2500000" placeholder="25,00,000">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Employment Type</label>
+                                        <select class="form-control" id="employmentType">
+                                            <option value="">Select employment type</option>
+                                            <option value="salaried">Salaried</option>
+                                            <option value="self-employed">Self-employed</option>
+                                            <option value="msme">MSME Owner</option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn--primary" onclick="analyzeCustomer()">Analyze Customer</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
-    <button type="button" id="calculateRiskBtn">Calculate Risk Score</button>
-  </form>
-  <p id="riskScoreDisplay">Risk Score: -</p>
-</section>
+                    <div class="analysis-section">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Alternative Data Analysis</h3>
+                            </div>
+                            <div class="card__body">
+                                <div class="data-sources">
+                                    <div class="data-source">
+                                        <div class="source-header">UPI Transaction Analysis</div>
+                                        <div class="source-metrics">
+                                            <span class="metric">Monthly Transactions: <strong id="upiTransactions">--</strong></span>
+                                            <span class="metric">Payment Success: <strong id="paymentSuccess">--</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="data-source">
+                                        <div class="source-header">Digital Payment History</div>
+                                        <div class="source-metrics">
+                                            <span class="metric">Avg Monthly Spend: <strong id="avgSpend">--</strong></span>
+                                            <span class="metric">Payment Failures: <strong id="paymentFailures">--</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="data-source">
+                                        <div class="source-header">Utility Bill Payments</div>
+                                        <div class="source-metrics">
+                                            <span class="metric">Regularity Score: <strong id="utilityScore">--</strong></span>
+                                            <span class="metric">On-time Payments: <strong id="onTimePayments">--</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-<section id="valuation" class="hidden">
-  <h3>Property Valuation</h3>
-  <form id="valuationForm">
-    <label for="propertyType">Property Type:</label>
-    <select id="propertyType">
-      <option>Residential Plot</option>
-      <option>Built Property</option>
-      <option>Commercial</option>
-    </select>
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Risk Assessment</h3>
+                            </div>
+                            <div class="card__body">
+                                <div class="risk-score-container">
+                                    <div class="risk-score">
+                                        <div class="score-display">
+                                            <span class="score-number" id="riskScore">--</span>
+                                            <span class="score-max">/850</span>
+                                        </div>
+                                        <div class="score-label">Credit Risk Score</div>
+                                    </div>
+                                    <div class="chart-container" style="position: relative; height: 300px;">
+                                        <canvas id="riskChart"></canvas>
+                                    </div>
+                                </div>
+                                <div class="risk-recommendation">
+                                    <div class="recommendation-header">Recommendation</div>
+                                    <div class="recommendation-badge" id="recommendationBadge">
+                                        <span class="status" id="recommendationStatus">Analyzing...</span>
+                                    </div>
+                                    <div class="recommendation-details" id="recommendationDetails">
+                                        Click "Analyze Customer" to get assessment
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    <label for="location">Location (City):</label>
-    <select id="location">
-      <option>Pune - Baner</option>
-      <option>Indore - Vijay Nagar</option>
-      <option>Nashik - College Road</option>
-    </select>
+                <!-- Compliance Section -->
+                <div class="compliance-section">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>RBI Compliance & Data Privacy</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="compliance-items">
+                                <div class="compliance-item">
+                                    <input type="checkbox" id="dataConsent" class="checkbox">
+                                    <label for="dataConsent">Customer has provided explicit consent for alternative data analysis</label>
+                                </div>
+                                <div class="compliance-item">
+                                    <input type="checkbox" id="rbiCompliance" class="checkbox">
+                                    <label for="rbiCompliance">Assessment follows RBI Digital Lending Guidelines 2025</label>
+                                </div>
+                                <div class="compliance-item">
+                                    <input type="checkbox" id="dataLocalization" class="checkbox">
+                                    <label for="dataLocalization">All data processing follows data localization requirements</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <label for="propertySize">Property Size (sq.ft):</label>
-    <input type="number" id="propertySize" value="1000" min="100" />
+            <!-- Property Valuation Module -->
+            <div id="valuation-module" class="module hidden">
+                <div class="module-header">
+                    <h2>Property Valuation Assessment</h2>
+                    <button class="btn btn--outline" onclick="showDashboard()">← Back to Dashboard</button>
+                </div>
 
-    <button type="button" id="calculateValueBtn">Calculate Estimated Value</button>
-  </form>
-  <p id="valuationDisplay">Estimated Value: -</p>
-</section>
+                <div class="valuation-content">
+                    <div class="form-section">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Property Details</h3>
+                            </div>
+                            <div class="card__body">
+                                <form id="propertyForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Property Type</label>
+                                        <select class="form-control" id="propertyType">
+                                            <option value="">Select property type</option>
+                                            <option value="residential-plot">Residential Plot</option>
+                                            <option value="built-property">Built Property</option>
+                                            <option value="commercial">Commercial Property</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">State</label>
+                                        <select class="form-control" id="propertyState">
+                                            <option value="">Select state</option>
+                                            <option value="maharashtra">Maharashtra</option>
+                                            <option value="madhya-pradesh">Madhya Pradesh</option>
+                                            <option value="karnataka">Karnataka</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">City</label>
+                                        <select class="form-control" id="propertyCity">
+                                            <option value="">Select city</option>
+                                            <option value="pune">Pune</option>
+                                            <option value="indore">Indore</option>
+                                            <option value="nashik">Nashik</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Area/Locality</label>
+                                        <input type="text" class="form-control" id="propertyArea" placeholder="e.g., Baner, Vijay Nagar">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Property Size (sq ft)</label>
+                                        <input type="number" class="form-control" id="propertySize" placeholder="Enter area in square feet">
+                                    </div>
+                                    <button type="button" class="btn btn--primary" onclick="valuateProperty()">Get Valuation</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
-<script src="app.js"></script>
+                    <div class="valuation-results">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Valuation Data Sources</h3>
+                            </div>
+                            <div class="card__body">
+                                <div class="data-sources-grid">
+                                    <div class="valuation-source">
+                                        <div class="source-icon">📍</div>
+                                        <div class="source-name">Circle Rate</div>
+                                        <div class="source-value" id="circleRate">--</div>
+                                    </div>
+                                    <div class="valuation-source">
+                                        <div class="source-icon">🛰️</div>
+                                        <div class="source-name">Geo-tagging</div>
+                                        <div class="source-value" id="geoData">--</div>
+                                    </div>
+                                    <div class="valuation-source">
+                                        <div class="source-icon">📋</div>
+                                        <div class="source-name">Registry Data</div>
+                                        <div class="source-value" id="registryData">--</div>
+                                    </div>
+                                    <div class="valuation-source">
+                                        <div class="source-icon">📊</div>
+                                        <div class="source-name">Market Rate</div>
+                                        <div class="source-value" id="marketRate">--</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Property Valuation Report</h3>
+                            </div>
+                            <div class="card__body">
+                                <div class="valuation-summary">
+                                    <div class="estimated-value">
+                                        <div class="value-display">
+                                            <span class="value-currency">₹</span>
+                                            <span class="value-amount" id="estimatedValue">--</span>
+                                        </div>
+                                        <div class="value-label">Estimated Property Value</div>
+                                    </div>
+                                    <div class="confidence-score">
+                                        <div class="confidence-display">
+                                            <span class="confidence-number" id="confidenceScore">--</span>
+                                            <span class="confidence-percent">%</span>
+                                        </div>
+                                        <div class="confidence-label">Confidence Score</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="chart-container" style="position: relative; height: 300px;">
+                                    <canvas id="valuationChart"></canvas>
+                                </div>
+
+                                <div class="loan-eligibility">
+                                    <h4>Loan Eligibility (80% LTV)</h4>
+                                    <div class="eligibility-amount">
+                                        Maximum Loan Amount: <strong id="maxLoanAmount">--</strong>
+                                    </div>
+                                    <div class="action-buttons">
+                                        <button class="btn btn--primary" onclick="generateDetailedReport()">Get Detailed Report</button>
+                                        <button class="btn btn--outline" onclick="requestLoanQuote()">Request Loan Quote</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consumer Simplified View -->
+            <div id="consumer-view" class="consumer-section hidden">
+                <div class="consumer-header">
+                    <h2>Your Loan Application</h2>
+                    <div class="application-status">
+                        <span class="status status--info">Application In Progress</span>
+                    </div>
+                </div>
+
+                <div class="consumer-content">
+                    <div class="progress-tracker">
+                        <div class="progress-step active">
+                            <div class="step-number">1</div>
+                            <div class="step-label">Application Submitted</div>
+                        </div>
+                        <div class="progress-step active">
+                            <div class="step-number">2</div>
+                            <div class="step-label">Documents Verified</div>
+                        </div>
+                        <div class="progress-step">
+                            <div class="step-number">3</div>
+                            <div class="step-label">Credit Assessment</div>
+                        </div>
+                        <div class="progress-step">
+                            <div class="step-number">4</div>
+                            <div class="step-label">Approval</div>
+                        </div>
+                    </div>
+
+                    <div class="consumer-cards">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Quick Property Valuation</h3>
+                            </div>
+                            <div class="card__body">
+                                <p>Get an instant estimate of your property value</p>
+                                <button class="btn btn--primary btn--full-width" onclick="showModule('valuation')">Value My Property</button>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Application Status</h3>
+                            </div>
+                            <div class="card__body">
+                                <div class="status-item">
+                                    <span class="status-label">Loan Amount:</span>
+                                    <span class="status-value">₹25,00,000</span>
+                                </div>
+                                <div class="status-item">
+                                    <span class="status-label">Application ID:</span>
+                                    <span class="status-value">IDFC240915001</span>
+                                </div>
+                                <div class="status-item">
+                                    <span class="status-label">Expected Approval:</span>
+                                    <span class="status-value">3-5 business days</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for Reports -->
+    <div id="reportModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Detailed Report</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Report content will be inserted here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" onclick="closeModal()">Close</button>
+                <button class="btn btn--primary">Download PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
